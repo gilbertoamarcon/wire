@@ -94,8 +94,9 @@ void Fx::updateWindowSize(){
 };
 
 void Fx::allEvents(){
-	SDL_PollEvent(&event);
-	if(event.type == SDL_QUIT){
+	SDL_PumpEvents();
+	keyboard = SDL_GetKeyboardState(NULL);
+	if(keyboard[SDL_SCANCODE_ESCAPE]){
 		quit = true;
 		return;
 	}
@@ -107,8 +108,8 @@ void Fx::canvas(){
 	SDL_RenderClear(renderer);
 };
 
-const SDL_Event &  Fx::getEvent() const {
-	return event;
+const Uint8* Fx::getKeyboard() const {
+	return keyboard;
 };
 
 void Fx::setColor(const Geom::Color & color) const{

@@ -11,26 +11,15 @@ void Eng::cleanup(){
 
 void Eng::events(){
 	Geom::Pos move;
-	SDL_Event event = getEvent();
-	switch( event.type ){
-		case SDL_KEYDOWN:
-			switch( event.key.keysym.sym ){
-				case SDLK_LEFT:
-					move = Geom::Pos(-1.0,  0.0);
-					break;
-				case SDLK_RIGHT:
-					move = Geom::Pos( 1.0,  0.0);
-					break;
-				case SDLK_UP:
-					move = Geom::Pos( 0.0, -1.0);
-					break;
-				case SDLK_DOWN:
-					move = Geom::Pos( 0.0,  1.0);
-					break;
-				default:
-					break;
-		}
-	}
+	const Uint8* keyboard = getKeyboard();
+	if(keyboard[SDL_SCANCODE_LEFT])
+		move += Geom::Pos(-1.0,  0.0);
+	if(keyboard[SDL_SCANCODE_RIGHT])
+		move += Geom::Pos( 1.0,  0.0);
+	if(keyboard[SDL_SCANCODE_UP])
+		move += Geom::Pos( 0.0, -1.0);
+	if(keyboard[SDL_SCANCODE_DOWN])
+		move += Geom::Pos( 0.0,  1.0);
 	object.displace(move);
 };
 
