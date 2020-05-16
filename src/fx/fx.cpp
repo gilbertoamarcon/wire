@@ -6,9 +6,9 @@ Fx::Fx() {
 	fullscreen = false;
 	inputGrabbed = false;
 	windowTitle = "";
-	windowSize = Size(1.0, 1.0);
-	worldSize = Size(1.0, 1.0);
-	canvasColor = Color(0.0, 0.0, 0.0);
+	windowSize = Geom::Size(1.0, 1.0);
+	worldSize = Geom::Size(1.0, 1.0);
+	canvasColor = Geom::Color(0.0, 0.0, 0.0);
 	frameTime = 10;
 };
 
@@ -21,11 +21,11 @@ void Fx::loadParams(std::string filename){
 	if(params["windowTitle"])
 		windowTitle = params["windowTitle"].as<std::string>();
 	if(params["window"] && params["window"]["w"] && params["window"]["h"])
-		windowSize = Size(params["window"]["w"].as<float>(), params["window"]["h"].as<float>());
+		windowSize = Geom::Size(params["window"]["w"].as<float>(), params["window"]["h"].as<float>());
 	if(params["world"] && params["world"]["w"] && params["world"]["h"])
-		worldSize = Size(params["world"]["w"].as<float>(), params["world"]["h"].as<float>());
+		worldSize = Geom::Size(params["world"]["w"].as<float>(), params["world"]["h"].as<float>());
 	if(params["canvasColor"] && params["canvasColor"]["r"] && params["canvasColor"]["g"] && params["canvasColor"]["b"])
-		canvasColor = Color(params["canvasColor"]["r"].as<float>(), params["canvasColor"]["g"].as<float>(), params["canvasColor"]["b"].as<float>());
+		canvasColor = Geom::Color(params["canvasColor"]["r"].as<float>(), params["canvasColor"]["g"].as<float>(), params["canvasColor"]["b"].as<float>());
 	if(params["frameTime"])
 		frameTime = params["frameTime"].as<int>();
 };
@@ -90,7 +90,7 @@ void Fx::updateWindowSize(){
 	int x;
 	int y;
 	SDL_GetWindowSize(window, &x, &y);
-	windowSize = Size(x,y);
+	windowSize = Geom::Size(x,y);
 };
 
 void Fx::allEvents(){
@@ -111,11 +111,11 @@ SDL_Event Fx::getEvent(){
 	return event;
 };
 
-void Fx::setColor(Color color){
+void Fx::setColor(Geom::Color color){
 	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
 };
 
-void Fx::drawLine(Pos a, Pos b){
+void Fx::drawLine(Geom::Pos a, Geom::Pos b){
 	SDL_RenderDrawLine(renderer, a.x, a.y, b.x, b.y);
 };
 

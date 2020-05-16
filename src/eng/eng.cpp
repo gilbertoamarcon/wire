@@ -3,6 +3,7 @@
 
 
 void Eng::init(){
+	shape.load("data/model/ship.yaml");
 };
 
 void Eng::cleanup(){
@@ -19,6 +20,11 @@ void Eng::events(){
 };
 
 void Eng::draw(){
-	setColor(Color(100, 100, 100));
-	drawLine(Pos(80, 45), Pos(159, 89));
+	setColor(Geom::Color(100, 100, 100));
+	drawShape();
+};
+
+void Eng::drawShape(){
+	for(const auto & line : shape.getShape())
+		drawLine(line.start, line.end);
 };
