@@ -33,11 +33,11 @@ private:
 
 public:
 	Fx();
-	void loadParams(std::string filename);
+	void loadParams(const std::string & filename);
 	void run();
-	SDL_Event getEvent();
-	void setColor(Geom::Color color);
-	void drawLine(Geom::Pos a, Geom::Pos b);
+	const SDL_Event & getEvent() const;
+	void setColor(const Geom::Color & color) const;
+	void drawLine(const Geom::Pos & a, const Geom::Pos & b) const;
 	virtual void init() = 0;
 	virtual void cleanup() = 0;
 	virtual void events() = 0;

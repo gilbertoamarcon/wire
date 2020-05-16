@@ -1,12 +1,12 @@
-fullscreen: False
+fullscreen: True
 inputGrabbed: False
 windowTitle: ""
 window:
   w: 1120
   h: 630
 world:
-  w: 1120
-  h: 630
+  w: 160
+  h: 90
 canvasColor:
   r: 0
   g: 0

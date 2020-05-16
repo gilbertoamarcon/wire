@@ -12,7 +12,7 @@ Fx::Fx() {
 	frameTime = 10;
 };
 
-void Fx::loadParams(std::string filename){
+void Fx::loadParams(const std::string & filename){
 	loadParamsFile(filename);
 	if(params["fullscreen"])
 		fullscreen = params["fullscreen"].as<bool>();
@@ -57,7 +57,7 @@ void Fx::initWindow(){
 	renderer = SDL_CreateRenderer(window, -1, 0);
 	updateWindowSize();
 	SDL_RenderSetScale(renderer, 1.0, 1.0);
-	// scale = windowSize/worldSize;
+	scale = windowSize/worldSize;
 };
 
 void Fx::loop(){
@@ -107,15 +107,17 @@ void Fx::canvas(){
 	SDL_RenderClear(renderer);
 };
 
-SDL_Event Fx::getEvent(){
+const SDL_Event &  Fx::getEvent() const {
 	return event;
 };
 
-void Fx::setColor(Geom::Color color){
+void Fx::setColor(const Geom::Color & color) const{
 	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
 };
 
-void Fx::drawLine(Geom::Pos a, Geom::Pos b){
-	SDL_RenderDrawLine(renderer, a.x, a.y, b.x, b.y);
+void Fx::drawLine(const Geom::Pos & a, const Geom::Pos & b) const{
+	Geom::Pos aScaled = a*scale;
+	Geom::Pos bScaled = b*scale;
+	SDL_RenderDrawLine(renderer, aScaled.x, aScaled.y, bScaled.x, bScaled.y);
 };
 
