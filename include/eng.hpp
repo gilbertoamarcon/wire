@@ -3,12 +3,12 @@
 
 #include "geom.hpp"
 #include "fx.hpp"
-#include "shape.hpp"
+#include "object.hpp"
 
 class Eng : public Fx {
 
 private:
-	Shape shape;
+	Object object;
 	void drawShape();
 
 public:

@@ -3,20 +3,35 @@
 
 
 void Eng::init(){
-	shape.load("data/model/ship.yaml");
+	object.load("data/model/ship.yaml");
 };
 
 void Eng::cleanup(){
 };
 
 void Eng::events(){
+	Geom::Pos move;
 	SDL_Event event = getEvent();
-	// switch(event.type){
-	// 	case SDL_QUIT:
-	// 		quit = true;
-	// 		break;
-	// 	// TODO input handling code goes here
-	// }
+	switch( event.type ){
+		case SDL_KEYDOWN:
+			switch( event.key.keysym.sym ){
+				case SDLK_LEFT:
+					move = Geom::Pos(-1.0,  0.0);
+					break;
+				case SDLK_RIGHT:
+					move = Geom::Pos( 1.0,  0.0);
+					break;
+				case SDLK_UP:
+					move = Geom::Pos( 0.0, -1.0);
+					break;
+				case SDLK_DOWN:
+					move = Geom::Pos( 0.0,  1.0);
+					break;
+				default:
+					break;
+		}
+	}
+	object.move(move);
 };
 
 void Eng::draw(){
@@ -25,6 +40,6 @@ void Eng::draw(){
 };
 
 void Eng::drawShape(){
-	for(const auto & line : shape.getShape())
+	for(const auto & line : object.getShape())
 		drawLine(line.start, line.end);
 };
