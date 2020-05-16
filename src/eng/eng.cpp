@@ -31,7 +31,7 @@ void Eng::events(){
 					break;
 		}
 	}
-	object.move(move);
+	object.displace(move);
 };
 
 void Eng::draw(){

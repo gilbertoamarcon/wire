@@ -13,7 +13,7 @@ private:
 public:
 	Object() {};
 	void load(std::string filename);
-	void move(const Geom::Pos & pos);
+	void displace(const Geom::Pos & displacement);
 	std::list<Geom::Line> getShape();
 
 };

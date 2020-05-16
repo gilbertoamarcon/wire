@@ -12,8 +12,9 @@ private:
 	bool quit;
 	bool fullscreen;
 	bool inputGrabbed;
-	Geom::Size windowSize;
-	Geom::Size worldSize;
+	Geom::Pos windowSize;
+	Geom::Pos worldSize;
+	Geom::Pos scale;
 	Geom::Color canvasColor;
 	int frameTime;
 	std::string windowTitle;

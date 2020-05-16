@@ -14,9 +14,21 @@ namespace Geom{
 			y += rhs.y;
 			return *this;
 		}
-		// Pos operator-(const Pos &a, const Pos &b){
-		// 	return Pos(a.x-b.x, a.y-b.y);
-		// }
+		Pos & operator-=(const Pos & rhs){
+			x -= rhs.x;
+			y -= rhs.y;
+			return *this;
+		}
+		Pos & operator*=(const Pos & rhs){
+			x *= rhs.x;
+			y *= rhs.y;
+			return *this;
+		}
+		Pos & operator/=(const Pos & rhs){
+			x /= rhs.x;
+			y /= rhs.y;
+			return *this;
+		}
 	};
 
 	struct Line {
@@ -24,13 +36,6 @@ namespace Geom{
 		Pos end;
 		Line() {};
 		Line(Pos start, Pos end): start(start), end(end) {};
-	};
-
-	struct Size {
-		float w;
-		float h;
-		Size(): w(0.0), h(0.0) {};
-		Size(float w, float h): w(w), h(h) {};
 	};
 
 	struct Color {

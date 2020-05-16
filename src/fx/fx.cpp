@@ -6,8 +6,8 @@ Fx::Fx() {
 	fullscreen = false;
 	inputGrabbed = false;
 	windowTitle = "";
-	windowSize = Geom::Size(1.0, 1.0);
-	worldSize = Geom::Size(1.0, 1.0);
+	windowSize = Geom::Pos(1.0, 1.0);
+	worldSize = Geom::Pos(1.0, 1.0);
 	canvasColor = Geom::Color(0.0, 0.0, 0.0);
 	frameTime = 10;
 };
@@ -21,9 +21,9 @@ void Fx::loadParams(std::string filename){
 	if(params["windowTitle"])
 		windowTitle = params["windowTitle"].as<std::string>();
 	if(params["window"] && params["window"]["w"] && params["window"]["h"])
-		windowSize = Geom::Size(params["window"]["w"].as<float>(), params["window"]["h"].as<float>());
+		windowSize = Geom::Pos(params["window"]["w"].as<float>(), params["window"]["h"].as<float>());
 	if(params["world"] && params["world"]["w"] && params["world"]["h"])
-		worldSize = Geom::Size(params["world"]["w"].as<float>(), params["world"]["h"].as<float>());
+		worldSize = Geom::Pos(params["world"]["w"].as<float>(), params["world"]["h"].as<float>());
 	if(params["canvasColor"] && params["canvasColor"]["r"] && params["canvasColor"]["g"] && params["canvasColor"]["b"])
 		canvasColor = Geom::Color(params["canvasColor"]["r"].as<float>(), params["canvasColor"]["g"].as<float>(), params["canvasColor"]["b"].as<float>());
 	if(params["frameTime"])
@@ -53,11 +53,11 @@ void Fx::loadParamsFile(std::string filename){
 void Fx::initWindow(){
 	SDL_Init(SDL_INIT_VIDEO);
 	Uint32 flags = getFlags();
-	window = SDL_CreateWindow(windowTitle.c_str(), 0, 0, windowSize.w, windowSize.h, flags);
+	window = SDL_CreateWindow(windowTitle.c_str(), 0, 0, windowSize.x, windowSize.y, flags);
 	renderer = SDL_CreateRenderer(window, -1, 0);
-	if(fullscreen)
-		updateWindowSize();
-	SDL_RenderSetScale(renderer, windowSize.w/worldSize.w, windowSize.h/worldSize.h);
+	updateWindowSize();
+	SDL_RenderSetScale(renderer, 1.0, 1.0);
+	// scale = windowSize/worldSize;
 };
 
 void Fx::loop(){
@@ -90,7 +90,7 @@ void Fx::updateWindowSize(){
 	int x;
 	int y;
 	SDL_GetWindowSize(window, &x, &y);
-	windowSize = Geom::Size(x,y);
+	windowSize = Geom::Pos(x,y);
 };
 
 void Fx::allEvents(){

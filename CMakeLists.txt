@@ -15,9 +15,14 @@ file(GLOB_RECURSE LIBS src/*/*.cpp)
 add_library(libs ${LIBS})
 
 add_executable(main src/main.cpp)
+add_executable(tests tests/test.cpp)
 
 
 target_link_libraries(main libs)
 target_link_libraries(main ${SDL2_LIBRARIES})
 target_link_libraries(main yaml-cpp)
+target_link_libraries(tests libs)
+
+enable_testing()
+add_test(NAME tests COMMAND tests)
 

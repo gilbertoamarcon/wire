@@ -5,8 +5,8 @@ void Object::load(std::string filename){
 	shape.load(filename);
 };
 
-void Object::move(const Geom::Pos & pos){
-	this->pos += pos;
+void Object::displace(const Geom::Pos & displacement){
+	this->pos += displacement;
 }
 
 std::list<Geom::Line> Object::getShape(){
