@@ -9,26 +9,14 @@ namespace Geom{
 		float y;
 		Pos(): x(0.0), y(0.0) {};
 		Pos(float x, float y): x(x), y(y) {};
-		Pos & operator+=(const Pos & rhs){ 
-			x += rhs.x;
-			y += rhs.y;
-			return *this;
-		}
-		Pos & operator-=(const Pos & rhs){
-			x -= rhs.x;
-			y -= rhs.y;
-			return *this;
-		}
-		Pos & operator*=(const Pos & rhs){
-			x *= rhs.x;
-			y *= rhs.y;
-			return *this;
-		}
-		Pos & operator/=(const Pos & rhs){
-			x /= rhs.x;
-			y /= rhs.y;
-			return *this;
-		}
+		Pos & operator+=(const Pos & rhs);
+		Pos & operator-=(const Pos & rhs);
+		Pos & operator*=(const Pos & rhs);
+		Pos & operator/=(const Pos & rhs);
+		Pos operator+(const Pos & rhs) const;
+		Pos operator-(const Pos & rhs) const;
+		Pos operator*(const Pos & rhs) const;
+		Pos operator/(const Pos & rhs) const;
 	};
 
 	struct Line {
