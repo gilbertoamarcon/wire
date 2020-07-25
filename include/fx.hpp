@@ -16,16 +16,18 @@ private:
 	Geom::Pos worldSize;
 	Geom::Pos scale;
 	Geom::Color canvasColor;
-	int frameTime;
+	float frameTime;
 	std::string windowTitle;
 	const Uint8* keyboard;
 	SDL_Window * window;
 	SDL_Renderer * renderer;
+	SDL_GLContext glContext;
 	YAML::Node params;
 	void updateWindowSize();
 	void loadParamsFile(std::string filename);
 	Uint32 getFlags();
 	void initWindow();
+	void initTimer();
 	void cleanupWindow();
 	void loop();
 	void allEvents();
@@ -36,6 +38,7 @@ public:
 	void loadParams(const std::string & filename);
 	void run();
 	const Uint8* getKeyboard() const;
+	const float getFrameTime() const;
 	void setColor(const Geom::Color & color) const;
 	void drawLine(const Geom::Pos & a, const Geom::Pos & b) const;
 	virtual void init() = 0;

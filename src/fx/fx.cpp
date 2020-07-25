@@ -9,7 +9,7 @@ Fx::Fx() {
 	windowSize = Geom::Pos(1.0, 1.0);
 	worldSize = Geom::Pos(1.0, 1.0);
 	canvasColor = Geom::Color(0.0, 0.0, 0.0);
-	frameTime = 10;
+	frameTime = 1.0;
 };
 
 void Fx::loadParams(const std::string & filename){
@@ -26,12 +26,11 @@ void Fx::loadParams(const std::string & filename){
 		worldSize = Geom::Pos(params["world"]["w"].as<float>(), params["world"]["h"].as<float>());
 	if(params["canvasColor"] && params["canvasColor"]["r"] && params["canvasColor"]["g"] && params["canvasColor"]["b"])
 		canvasColor = Geom::Color(params["canvasColor"]["r"].as<float>(), params["canvasColor"]["g"].as<float>(), params["canvasColor"]["b"].as<float>());
-	if(params["frameTime"])
-		frameTime = params["frameTime"].as<int>();
 };
 
 void Fx::run(){
 	initWindow();
+	initTimer();
 	init();
 	loop();
 	cleanupWindow();
@@ -53,24 +52,42 @@ void Fx::loadParamsFile(std::string filename){
 void Fx::initWindow(){
 	SDL_Init(SDL_INIT_VIDEO);
 	Uint32 flags = getFlags();
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1); 
 	window = SDL_CreateWindow(windowTitle.c_str(), 0, 0, windowSize.x, windowSize.y, flags);
-	renderer = SDL_CreateRenderer(window, -1, 0);
+	glContext = SDL_GL_CreateContext(window);
+	SDL_GL_SetSwapInterval(1);
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
 	updateWindowSize();
 	SDL_RenderSetScale(renderer, 1.0, 1.0);
 	scale = windowSize/worldSize;
 };
 
+void Fx::initTimer(){
+	SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO);
+	if(SDL_Init(SDL_INIT_TIMER) < 0){
+		std::cout << "Error initializing timer" << std::endl;
+		quit = true;
+		exit(0);
+	}
+
+};
+
 void Fx::loop(){
+	Uint64 start, now;
 	while (!quit){
-		SDL_Delay(frameTime);
+		start = SDL_GetPerformanceCounter();
 		allEvents();
 		canvas();
 		draw();
 		SDL_RenderPresent(renderer);
+		SDL_GL_SwapWindow(window);
+		now = SDL_GetPerformanceCounter();
+		frameTime = (float)(now-start) / SDL_GetPerformanceFrequency();
 	}
 };
 
 void Fx::cleanupWindow(){
+	SDL_GL_DeleteContext(glContext);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
@@ -110,6 +127,10 @@ void Fx::canvas(){
 
 const Uint8* Fx::getKeyboard() const {
 	return keyboard;
+};
+
+const float Fx::getFrameTime() const {
+	return frameTime;
 };
 
 void Fx::setColor(const Geom::Color & color) const{
