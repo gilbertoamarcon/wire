@@ -9,7 +9,7 @@ Fx::Fx() {
 	windowSize = Geom::Pos(1.0, 1.0);
 	worldSize = Geom::Pos(1.0, 1.0);
 	canvasColor = Geom::Color(0.0, 0.0, 0.0);
-	frameTime = 1.0;
+	frameTime = 0.0;
 };
 
 void Fx::loadParams(const std::string & filename){
@@ -30,7 +30,6 @@ void Fx::loadParams(const std::string & filename){
 
 void Fx::run(){
 	initWindow();
-	initTimer();
 	init();
 	loop();
 	cleanupWindow();
@@ -51,8 +50,11 @@ void Fx::loadParamsFile(std::string filename){
 
 void Fx::initWindow(){
 	SDL_Init(SDL_INIT_VIDEO);
+	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 16);
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	Uint32 flags = getFlags();
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1); 
 	window = SDL_CreateWindow(windowTitle.c_str(), 0, 0, windowSize.x, windowSize.y, flags);
 	glContext = SDL_GL_CreateContext(window);
 	SDL_GL_SetSwapInterval(1);
@@ -62,27 +64,15 @@ void Fx::initWindow(){
 	scale = windowSize/worldSize;
 };
 
-void Fx::initTimer(){
-	SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO);
-	if(SDL_Init(SDL_INIT_TIMER) < 0){
-		std::cout << "Error initializing timer" << std::endl;
-		quit = true;
-		exit(0);
-	}
-
-};
-
 void Fx::loop(){
-	Uint64 start, now;
+	Uint64 start;
 	while (!quit){
 		start = SDL_GetPerformanceCounter();
 		allEvents();
 		canvas();
 		draw();
 		SDL_RenderPresent(renderer);
-		SDL_GL_SwapWindow(window);
-		now = SDL_GetPerformanceCounter();
-		frameTime = (float)(now-start) / SDL_GetPerformanceFrequency();
+		frameTime = (float)(SDL_GetPerformanceCounter()-start) / SDL_GetPerformanceFrequency();
 	}
 };
 
@@ -95,7 +85,7 @@ void Fx::cleanupWindow(){
 
 
 Uint32 Fx::getFlags(){
-	Uint32 flags = 0;
+	Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI;
 	if(fullscreen)
 		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 	if(inputGrabbed)

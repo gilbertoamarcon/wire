@@ -27,7 +27,6 @@ private:
 	void loadParamsFile(std::string filename);
 	Uint32 getFlags();
 	void initWindow();
-	void initTimer();
 	void cleanupWindow();
 	void loop();
 	void allEvents();
