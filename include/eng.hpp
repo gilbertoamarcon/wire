@@ -8,6 +8,7 @@
 class Eng : public Fx {
 
 private:
+	std::list<Object> missiles;
 	Object object;
 	void drawShape();
 

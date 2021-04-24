@@ -9,7 +9,7 @@ void Object::displace(const Geom::Pos & displacement){
 	this->pos += displacement;
 }
 
-std::list<Geom::Line> Object::getShape(){
+std::list<Geom::Line> Object::getShape() const {
 	std::list<Geom::Line> path = shape.getShape();
 	for(auto & line : path){
 		line.start += pos;

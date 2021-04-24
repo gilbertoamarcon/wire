@@ -14,7 +14,7 @@ public:
 	Object() {};
 	void load(std::string filename);
 	void displace(const Geom::Pos & displacement);
-	std::list<Geom::Line> getShape();
+	std::list<Geom::Line> getShape() const;
 
 };
 
