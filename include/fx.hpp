@@ -13,7 +13,6 @@ private:
 	bool fullscreen;
 	bool inputGrabbed;
 	Geom::Pos windowSize;
-	Geom::Pos worldSize;
 	Geom::Pos scale;
 	Geom::Color canvasColor;
 	float frameTime;
@@ -33,6 +32,7 @@ private:
 	void canvas();
 
 public:
+	Geom::Pos worldSize;
 	Fx();
 	void loadParams(const std::string & filename);
 	void run();

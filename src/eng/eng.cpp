@@ -24,6 +24,14 @@ void Eng::events(){
 	if(keyboard[SDL_SCANCODE_DOWN])
 		move += Geom::Pos( 0.0,  displacement);
 	object.displace(move);
+	if (object.pos.x > worldSize.x)
+		object.pos.x = worldSize.x;
+	if (object.pos.x < 0.0)
+		object.pos.x = 0.0;
+	if (object.pos.y > worldSize.y)
+		object.pos.y = worldSize.y;
+	if (object.pos.y < 0.0)
+		object.pos.y = 0.0;
 };
 
 void Eng::draw(){

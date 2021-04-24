@@ -8,9 +8,9 @@ class Object {
 
 private:
 	Shape shape;
-	Geom::Pos pos;
 
 public:
+	Geom::Pos pos;
 	Object() {};
 	void load(std::string filename);
 	void displace(const Geom::Pos & displacement);
